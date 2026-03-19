@@ -2,28 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
 
-* { box-sizing: border-box; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: #0f0f0f;
-  color: #f0f0f0;
+:root {
+  --primary: 276 96% 65%;
+  --primary-foreground: 0 0% 98%;
+  --background: 0 0% 100%;
+  --foreground: 224 71% 4%;
+  --muted: 224 14% 96%;
+  --muted-foreground: 25 6% 45%;
+  --border: 214 15% 91%;
+  --success: 139 45% 46%;
+  --destructive: 0 87% 58%;
+  --radius: 0.5rem;
 }
 
+* {
+  box-sizing: border-box;
+  letter-spacing: -0.025em;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Primary button style matching user's reference */
+.btn-primary {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 1px solid hsl(var(--primary));
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0 2rem;
+  height: 2.75rem;
+  box-shadow: inset 0px 0px 30px 30px #ffffff15, 0px 1px 4px 0px #03071214;
+  transition: background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-color: hsl(276 96% 58%);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Secondary / outline button */
+.btn-secondary {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: transparent;
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0 1.5rem;
+  height: 2.75rem;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary));
+}
+
+/* Recording pulse ring — using primary purple */
 .pulse-ring {
   animation: pulse-ring 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
 
 @keyframes pulse-ring {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
-  70% { transform: scale(1); box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-}
-
-.waveform-bar {
-  animation: wave 0.8s ease-in-out infinite;
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 hsla(276, 96%, 65%, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 14px hsla(276, 96%, 65%, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 hsla(276, 96%, 65%, 0); }
 }
 
 @keyframes wave {

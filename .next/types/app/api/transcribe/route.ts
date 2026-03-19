@@ -1,4 +1,4 @@
-// File: C:\Users\tharu\Downloads\salon-remarks\src\app\api\transcribe\route.ts
+// File: C:\Users\tharu\OneDrive\Desktop\unemployed\dasalon\salon-remarks\src\app\api\transcribe\route.ts
 import * as entry from '../../../../../src/app/api/transcribe/route.js'
 import type { NextRequest } from 'next/server.js'
 

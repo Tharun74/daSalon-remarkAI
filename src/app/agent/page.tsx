@@ -31,12 +31,14 @@ export default function AgentPage() {
   const [step, setStep] = useState<Step>('input')
   const [isRecording, setIsRecording] = useState(false)
   const [recordingTime, setRecordingTime] = useState(0)
-  
+
   const [englishText, setEnglishText] = useState('')
   const [originalText, setOriginalText] = useState('')
   const [language, setLanguage] = useState('')
   const [remarks, setRemarks] = useState('')
-  
+
+  const [activeTab, setActiveTab] = useState<'english' | 'original'>('english')
+
   const [error, setError] = useState('')
   const [progress, setProgress] = useState(0)
 
@@ -106,6 +108,7 @@ export default function AgentPage() {
 
     setStep('processing')
     setProgress(0)
+    setActiveTab('english')
 
     const fd = new FormData()
     fd.append('audio', blob, filename)
@@ -166,6 +169,7 @@ export default function AgentPage() {
     }
     setStep('input')
     setError('')
+    setActiveTab('english')
   }
 
   const handleFinalSubmit = () => {
@@ -274,7 +278,7 @@ export default function AgentPage() {
                 />
               </div>
             </div>
-            
+
             <button
               onClick={cancelUpload}
               className="text-red-500 hover:text-red-600 text-sm font-medium transition-colors border border-red-200 py-1.5 px-4 rounded hover:bg-red-50"
@@ -290,20 +294,43 @@ export default function AgentPage() {
         {/* STEP: REVIEW */}
         {step === 'review' && (
           <div className="space-y-6 animate-fade-in py-2">
-            <div className="p-4 rounded-lg shadow-sm border border-gray-200 bg-white space-y-2">
-              <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider">English Translation (Primary)</div>
-              <p className="text-gray-900 text-sm leading-relaxed">{englishText}</p>
-            </div>
-
-            {language !== 'english' && language !== 'en' && originalText && (
-              <div className="p-4 rounded-lg shadow-sm border border-gray-200 bg-gray-50 space-y-2">
-                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider flex justify-between">
-                  <span>Original Transcript</span>
-                  <span className="bg-gray-200 px-1.5 py-0.5 rounded text-[10px]">{language}</span>
+            <div className="p-4 rounded-lg shadow-sm border border-gray-200 bg-white space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                <div className="flex gap-4">
+                  <button
+                    onClick={() => setActiveTab('english')}
+                    className={`text-xs font-semibold uppercase tracking-wider px-1 pb-2 -mb-[9px] border-b-2 transition-colors ${
+                      activeTab === 'english'
+                        ? 'border-purple-500 text-purple-600'
+                        : 'border-transparent text-gray-400 hover:text-gray-600'
+                    }`}
+                  >
+                    English
+                  </button>
+                  {language !== 'english' && language !== 'en' && originalText && (
+                    <button
+                      onClick={() => setActiveTab('original')}
+                      className={`text-xs font-semibold uppercase tracking-wider px-1 pb-2 -mb-[9px] border-b-2 transition-colors flex items-center gap-2 ${
+                        activeTab === 'original'
+                          ? 'border-purple-500 text-purple-600'
+                          : 'border-transparent text-gray-400 hover:text-gray-600'
+                      }`}
+                    >
+                      Original
+                      <span className="bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded text-[10px] uppercase">{language}</span>
+                    </button>
+                  )}
                 </div>
-                <p className="text-gray-500 text-sm leading-relaxed italic">{originalText}</p>
               </div>
-            )}
+              
+              <div className="min-h-[60px]">
+                {activeTab === 'english' ? (
+                  <p className="text-gray-900 text-sm leading-relaxed">{englishText}</p>
+                ) : (
+                  <p className="text-gray-700 text-sm leading-relaxed italic">{originalText}</p>
+                )}
+              </div>
+            </div>
 
             <div className="space-y-2">
               <label htmlFor="remarks" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider ml-1">
@@ -320,7 +347,7 @@ export default function AgentPage() {
 
             <div className="flex gap-3 pt-4">
               <button
-                onClick={() => { setStep('input'); setRemarks(''); setError('') }}
+                onClick={() => { setStep('input'); setRemarks(''); setError(''); setActiveTab('english') }}
                 className="btn-secondary flex-1"
               >
                 Start Over
@@ -349,7 +376,7 @@ export default function AgentPage() {
             </div>
             <button
               onClick={() => {
-                setStep('input'); setEnglishText(''); setOriginalText(''); setRemarks('')
+                setStep('input'); setEnglishText(''); setOriginalText(''); setRemarks(''); setActiveTab('english')
               }}
               className="btn-primary"
             >
